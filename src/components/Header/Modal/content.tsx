@@ -1,6 +1,7 @@
 import { useTheme } from "@/contexts/themeContext";
 import Icon from "../../../../public/Icon.png";
 import { Sun, Moon } from "lucide-react";
+import { UserOptions } from "./useroptions";
 
 export const ModalContent = () => {
   const { theme, toggleTheme } = useTheme();
@@ -16,6 +17,10 @@ export const ModalContent = () => {
           <h1 className="text-5xl font-antique text-primary-light-300 font-bold">
             BOOKS
           </h1>
+        </div>
+        <div className="w-full grid grid-cols-2 gap-2 mt-8">
+          <UserOptions />
+
         </div>
       </div>
       <div className="w-full flex items-center justify-end">
