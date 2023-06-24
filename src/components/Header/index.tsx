@@ -1,5 +1,8 @@
+"use client";
+
 import { Menu, Search } from "lucide-react";
 import Icon from "../../../public/Icon.png";
+import { useTheme } from "@/contexts/themeContext";
 
 export const Header = () => {
   return (
