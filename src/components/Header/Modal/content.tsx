@@ -2,6 +2,7 @@ import { useTheme } from "@/contexts/themeContext";
 import Icon from "../../../../public/Icon.png";
 import { Sun, Moon } from "lucide-react";
 import { UserOptions } from "./useroptions";
+import { Navigate } from "./navigate";
 
 export const ModalContent = () => {
   const { theme, toggleTheme } = useTheme();
@@ -20,7 +21,7 @@ export const ModalContent = () => {
         </div>
         <div className="w-full grid grid-cols-2 gap-2 mt-8">
           <UserOptions />
-
+          <Navigate />
         </div>
       </div>
       <div className="w-full flex items-center justify-end">
