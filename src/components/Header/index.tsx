@@ -1,8 +1,7 @@
 "use client";
 
 import { Menu, Search } from "lucide-react";
-import Icon from "../../../public/Icon.png";
-import { useTheme } from "@/contexts/themeContext";
+import { Modal } from "./Modal";
 
 export const Header = () => {
   return (
@@ -17,9 +16,7 @@ export const Header = () => {
           <Search />
         </button>
       </div>
-      <button className="bg-primary rounded p-2  text-white hover:bg-primary-light-100 transition-colors">
-        <Menu size={30} />
-      </button>
+      <Modal />
     </div>
   );
 };

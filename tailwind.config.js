@@ -18,12 +18,18 @@ module.exports = {
 
         "primary-light-100": "#135750",
         "primary-light-200": "#0e4d46",
-        "primary-dark-100": "#061c1a",
-        "primary-dark-200": "#061413",
+        "primary-light-300": "#208076",
+        "primary-light-400": "#33CCBD",
+
+        "primary-dark-100": "#0D332F",
+        "primary-dark-200": "#00332F",
+        "primary-dark-300": "#061c1a",
+        "primary-dark-400": "#061413",
       },
     },
     fontFamily: {
       montserrat: ["'Montserrat'", "sans-serif"],
+      antique: ["'Bacasime Antique'", "serif"],
     },
   },
   plugins: [],
