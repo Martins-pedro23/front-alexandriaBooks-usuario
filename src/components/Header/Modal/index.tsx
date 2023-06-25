@@ -1,11 +1,17 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { X, Menu } from "lucide-react";
 import { ModalContent } from "./content";
+import useLoginStore from "@/contexts/loginContext";
 
 export const Modal = () => {
   const [open, setOpen] = useState(false);
+  const { getTokenInCookies } = useLoginStore();
+
+  useEffect(() => {
+    getTokenInCookies();
+  }, []);
 
   return (
     <>
