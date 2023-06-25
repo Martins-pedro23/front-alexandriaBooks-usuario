@@ -7,6 +7,7 @@ import useSWRMutation from "swr/mutation";
 import cookies from "js-cookie";
 import useLoginStore from "@/contexts/loginContext";
 import { useRouter } from "next/navigation";
+import { BounceLoader } from "react-spinners";
 
 async function handleLogin(
   url: string,
@@ -22,6 +23,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const { trigger, error } = useSWRMutation(
     "http://localhost:3001/login",
     (key) => handleLogin(key, { email, password })
@@ -31,10 +33,15 @@ export default function LoginPage() {
   const preLogin = async () => {
     if (!password || !email) return setErrorMessage("Preencha todos os campos");
     try {
+      setLoading(true);
       await trigger();
       if (!error) router.push("/");
+      setTimeout(() => {
+        setLoading(false);
+      }, 5000);
     } catch (err) {
       setErrorMessage("Email ou senha incorretos");
+      setLoading(false);
     }
   };
 
@@ -80,9 +87,9 @@ export default function LoginPage() {
         <p className="text-red-500 text-center">{errorMessage}</p>
         <button
           onClick={preLogin}
-          className="bg-primary text-white rounded pt-2 pb-2 font-antique text-2xl hover:bg-primary-light-200 transition-colors"
+          className="bg-primary text-white rounded pt-2 pb-2 font-antique text-2xl hover:bg-primary-light-200 transition-colors w-full flex items-center justify-center"
         >
-          Entrar
+          {loading ? <BounceLoader color="#fff" size={30} /> : "Entrar"}
         </button>
         <div className="w-full flex flex-row gap-2 items-center justify-between">
           <button className="font-antique text-primary-dark-200 font-bold text-xl border border-spacing-1 border-primary pt-1 pb-1 pr-4 pl-4 rounded hover:bg-zinc-200 transition-colors dark:hover:bg-zinc-800 dark:text-primary-light-300">
