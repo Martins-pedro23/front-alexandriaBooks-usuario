@@ -21,16 +21,35 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const { trigger, error } = useSWRMutation(
     "http://localhost:3001/login",
     (key) => handleLogin(key, { email, password })
   );
   const router = useRouter();
 
+  const preLogin = async () => {
+    if (!password || !email) return setErrorMessage("Preencha todos os campos");
+    try {
+      await trigger();
+      if (!error) router.push("/");
+    } catch (err) {
+      setErrorMessage("Email ou senha incorretos");
+    }
+  };
+
   useEffect(() => {
     const token = useLoginStore.getState().getTokenInCookies();
     if (token) router.push("/");
   }, []);
+
+  useEffect(() => {
+    if (errorMessage) {
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 3000);
+    }
+  }, [errorMessage]);
 
   return (
     <div className="w-full h-[900px]  flex items-center justify-center dark:bg-zinc-900">
@@ -58,11 +77,9 @@ export default function LoginPage() {
             {showPassword ? <Eye size={30} /> : <EyeOff size={30} />}
           </button>
         </div>
+        <p className="text-red-500 text-center">{errorMessage}</p>
         <button
-          onClick={async () => {
-            await trigger();
-            if (!error) router.push("/");
-          }}
+          onClick={preLogin}
           className="bg-primary text-white rounded pt-2 pb-2 font-antique text-2xl hover:bg-primary-light-200 transition-colors"
         >
           Entrar
