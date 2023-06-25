@@ -1,0 +1,3 @@
+type IAxiosResponse = {
+  data: string;
+};

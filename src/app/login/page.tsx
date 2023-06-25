@@ -1,10 +1,30 @@
 "use client";
 
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import useSWRMutation from "swr/mutation";
+import cookies from "js-cookie";
+
+async function handleLogin(
+  url: string,
+  { email, password }: { email?: string; password?: string }
+) {
+  const result: IAxiosResponse = await axios.post(url, { email, password });
+  cookies.set("token", result.data, { expires: 1 });
+}
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { trigger } = useSWRMutation(
+    "http://localhost:3001/login",
+    (key) => handleLogin(key, { email, password }),
+    {
+      throwOnError: true,
+    }
+  );
 
   return (
     <div className="w-full h-[900px]  flex items-center justify-center dark:bg-zinc-900">
@@ -13,15 +33,17 @@ export default function LoginPage() {
           LOGIN
         </h1>
         <input
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
           placeholder="Digite seu email"
           className="bg-zinc-100 text-xl pt-2 pb-2 pl-4 pr-4 rounded outline-none focus:border focus:border-spacing-1 focus:border-primary border-spacing-1 border-zinc-300 border transition-all dark:bg-zinc-800 dark:text-white dark:border-zinc-900  dark:focus:border-primary-light-300"
         />
         <div className="pr-4 pl-4 w-full flex flex-row items-center justify-center bg-zinc-100 rounded hover:border hover:border-spacing-1 hover:border-primary border-spacing-1 border-zinc-300 border transition-all dark:bg-zinc-800 dark:border-zinc-900  dark:hover:border-primary-light-300">
           <input
+            onChange={(e) => setPassword(e.target.value)}
             type={showPassword ? "text" : "password"}
             placeholder="Digite sua senha"
-            className="text-xl pt-2 pb-2   outline-none dark:text-white bg-zinc-100"
+            className="text-xl pt-2 pb-2   outline-none dark:text-white bg-zinc-100 dark:bg-zinc-800"
           />
           <button
             className="text-primary"
@@ -30,7 +52,12 @@ export default function LoginPage() {
             {showPassword ? <Eye size={30} /> : <EyeOff size={30} />}
           </button>
         </div>
-        <button className="bg-primary text-white rounded pt-2 pb-2 font-antique text-2xl hover:bg-primary-light-200 transition-colors">
+        <button
+          onClick={async () => {
+            await trigger();
+          }}
+          className="bg-primary text-white rounded pt-2 pb-2 font-antique text-2xl hover:bg-primary-light-200 transition-colors"
+        >
           Entrar
         </button>
         <div className="w-full flex flex-row gap-2 items-center justify-between">
