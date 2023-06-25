@@ -8,6 +8,8 @@ import cookies from "js-cookie";
 import useLoginStore from "@/contexts/loginContext";
 import { useRouter } from "next/navigation";
 import { BounceLoader } from "react-spinners";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 async function handleLogin(
   url: string,
@@ -57,8 +59,11 @@ export default function LoginPage() {
   }, [errorMessage]);
 
   return (
-    <div className="w-full h-[900px]  flex items-center justify-center dark:bg-zinc-900">
-      <div className="p-16 flex flex-col gap-5 rounded-2xl shadow-2xl dark:bg-zinc-900 dark:shadow-black">
+    <div className="w-screen h-screen absolute top-0 left-0 z-10 bg-white flex items-center justify-center dark:bg-zinc-900">
+      <div className="p-16 flex flex-col gap-5 rounded-2xl shadow-2xl dark:bg-zinc-900 dark:shadow-black relative">
+        <Link href="/">
+          <ArrowLeft size={30} className="text-primary absolute top-4 left-4" />
+        </Link>
         <h1 className="font-antique text-primary font-bold text-center text-6xl dark:text-primary-light-300">
           LOGIN
         </h1>
@@ -90,9 +95,9 @@ export default function LoginPage() {
           {loading ? <BounceLoader color="#fff" size={30} /> : "Entrar"}
         </button>
         <div className="w-full flex flex-row gap-2 items-center justify-between">
-          <button className="font-antique text-primary-dark-200 font-bold text-xl border border-spacing-1 border-primary pt-1 pb-1 pr-4 pl-4 rounded hover:bg-zinc-200 transition-colors dark:hover:bg-zinc-800 dark:text-primary-light-300">
+          <Link href="/register" className="font-antique text-primary-dark-200 font-bold text-xl border border-spacing-1 border-primary pt-1 pb-1 pr-4 pl-4 rounded hover:bg-zinc-200 transition-colors dark:hover:bg-zinc-800 dark:text-primary-light-300">
             Registrar
-          </button>
+          </Link>
           <button className="font-antique text-primary-dark-200 font-bold text-xl dark:text-primary-light-300">
             Recuperar senha
           </button>
