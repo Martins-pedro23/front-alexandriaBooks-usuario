@@ -16,6 +16,7 @@ const useLoginStore = create<LoginStore>((set) => ({
           Cookies.remove("token");
           return undefined;
         }
+        set({ token });
       } else {
         Cookies.remove("token");
         return undefined;

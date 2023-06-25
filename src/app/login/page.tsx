@@ -35,10 +35,8 @@ export default function LoginPage() {
     try {
       setLoading(true);
       await trigger();
+      setLoading(false);
       if (!error) router.push("/");
-      setTimeout(() => {
-        setLoading(false);
-      }, 5000);
     } catch (err) {
       setErrorMessage("Email ou senha incorretos");
       setLoading(false);

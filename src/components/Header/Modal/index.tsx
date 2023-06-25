@@ -7,7 +7,7 @@ import useLoginStore from "@/contexts/loginContext";
 
 export const Modal = () => {
   const [open, setOpen] = useState(false);
-  const { getTokenInCookies } = useLoginStore();
+  const { getTokenInCookies, token } = useLoginStore();
 
   useEffect(() => {
     getTokenInCookies();
