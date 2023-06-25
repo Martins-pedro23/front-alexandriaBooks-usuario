@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useSWRMutation from "swr/mutation";
 import cookies from "js-cookie";
+import useLoginStore from "@/contexts/loginContext";
+import { useRouter } from "next/navigation";
 
 async function handleLogin(
   url: string,
@@ -12,19 +14,23 @@ async function handleLogin(
 ) {
   const result: IAxiosResponse = await axios.post(url, { email, password });
   cookies.set("token", result.data, { expires: 1 });
+  useLoginStore.getState().setToken(result.data);
 }
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { trigger } = useSWRMutation(
+  const { trigger, error } = useSWRMutation(
     "http://localhost:3001/login",
-    (key) => handleLogin(key, { email, password }),
-    {
-      throwOnError: true,
-    }
+    (key) => handleLogin(key, { email, password })
   );
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = useLoginStore.getState().getTokenInCookies();
+    if (token) router.push("/");
+  }, []);
 
   return (
     <div className="w-full h-[900px]  flex items-center justify-center dark:bg-zinc-900">
@@ -55,6 +61,7 @@ export default function LoginPage() {
         <button
           onClick={async () => {
             await trigger();
+            if (!error) router.push("/");
           }}
           className="bg-primary text-white rounded pt-2 pb-2 font-antique text-2xl hover:bg-primary-light-200 transition-colors"
         >
