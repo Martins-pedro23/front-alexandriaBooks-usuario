@@ -5,7 +5,7 @@ import { Modal } from "./Modal";
 
 export const Header = () => {
   return (
-    <div className="w-screen bg-white flex flex-row justify-between items-center p-4 dark:bg-zinc-900">
+    <div className="w-full bg-white flex flex-row justify-between items-center p-3 dark:bg-zinc-900 border-b border-spacing-1 border-primary shadow-xl dark:shadow-black dark:shadow-2xl">
       <img src="./Icon.png" alt="Logo" className="w-20 h-20" />
       <div className="flex flex-row items-center">
         <input
